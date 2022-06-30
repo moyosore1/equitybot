@@ -10,3 +10,4 @@ class Equity(models.Model):
 
     class Meta:
         ordering = ['-id']
+        verbose_name_plural = 'Equities'

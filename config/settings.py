@@ -20,13 +20,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6%(cqy!o!xyy%^&ff)1rj$2z*7anb#hd-dk1zgz_&dv(k@)45'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'xxxxx')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['moyoequitybot.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -84,24 +84,19 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": 'debp29o9c0kg0n',
-        "USER": 'xeqooejuxspwde',
-        "PASSWORD": '4e1a6e57097f5d81f7bb74fac2ed2e0fcfd3ce22aba6bf92b403e41014e6ca2d',
-        "HOST": 'ec2-52-72-99-110.compute-1.amazonaws.com',
-        "PORT": 5432
-    },
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+
+
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -147,11 +142,12 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CELERY STUFF
-CELERY_BROKER_URL = 'redis://:p55422a978362c3d8f78d4eef9440e2075cb872831aed980a5b6a64a5bd328152@ec2-3-221-194-11.compute-1.amazonaws.com:13639'
-CELERY_RESULT_BACKEND = 'redis://:p55422a978362c3d8f78d4eef9440e2075cb872831aed980a5b6a64a5bd328152@ec2-3-221-194-11.compute-1.amazonaws.com:13639'
+CELERY_BROKER_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379')
+CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL', 'redis://localhost:6379')
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+CELERY_BEAT_SCHEDULER ='django_celery_beat.schedulers:DatabaseScheduler'
 
 
 REST_FRAMEWORK = {
