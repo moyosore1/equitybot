@@ -82,7 +82,7 @@ nosetests.xml
 coverage.xml 
 *.cover 
 .hypothesis/ 
-chromedriver.exe
+# chromedriver.exe
 # Jupyter Notebook 
 .ipynb_checkpoints 
 
