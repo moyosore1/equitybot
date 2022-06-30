@@ -1,3 +1,4 @@
+import os
 import re
 from datetime import datetime
 import time
@@ -16,13 +17,14 @@ def setup_driver():
     options.add_argument("--headless")
     options.add_argument('--profile-directory=Default')
     options.add_argument("--incognito")
+    options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
     options.add_argument("--disable-plugins-discovery")
     options.add_argument("start-maximized")
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
-    driver = uc.Chrome(options=options)
+    driver = uc.Chrome(str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
     return driver
 
 
