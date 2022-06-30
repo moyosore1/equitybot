@@ -10,7 +10,6 @@ from selenium.webdriver.common.by import By
 import undetected_chromedriver as uc
 
 
-
 def setup_driver():
     options = uc.ChromeOptions()
     options.add_argument('--disable-extensions')
@@ -24,7 +23,8 @@ def setup_driver():
     options.add_experimental_option('useAutomationExtension', False)
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
-    driver = uc.Chrome(str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
+    driver = uc.Chrome(executable_path=str(
+        os.environ.get('CHROMEDRIVER_PATH')), options=options)
     return driver
 
 
@@ -64,7 +64,6 @@ def scrape_data(driver):
     time.sleep(15)
     market_watch_element = driver.find_element(By.XPATH, market_watch_xpath)
 
-
     market_watch = convert_str_to_time(market_watch_element.text)
 
     balance_equity_xpath = "/html/body/div[6]/div[3]/table/tbody/tr[2]/td[1]/div/span"
@@ -79,5 +78,5 @@ def scrape_data(driver):
         balance_equity_str[balance_index:equity_index].strip())
     equity = convert_str_to_float(
         balance_equity_str[equity_index:margin_index].strip())
-    
+
     return market_watch, balance, equity
