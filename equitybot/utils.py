@@ -67,7 +67,7 @@ def scrape_data(driver):
     market_watch_element = driver.find_element(By.XPATH, market_watch_xpath)
 
     market_watch = convert_str_to_time(market_watch_element.text)
-
+    print(market_watch)
     balance_equity_xpath = "/html/body/div[6]/div[3]/table/tbody/tr[2]/td[1]/div/span"
     balance_equity_element = driver.find_element(
         By.XPATH, balance_equity_xpath)
