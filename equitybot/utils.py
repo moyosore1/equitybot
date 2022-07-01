@@ -60,6 +60,8 @@ def login_to_mql5(driver):
     time.sleep(1)
     okay_btn.click()
 
+# from equitybot.tasks import add_latest_data
+# add_latest_data.delay()
 
 def scrape_data(driver):
     market_watch_xpath = "/html/body/div[5]/div/div[1]"
@@ -68,17 +70,23 @@ def scrape_data(driver):
 
     market_watch = convert_str_to_time(market_watch_element.text)
     print(market_watch)
-    balance_equity_xpath = "/html/body/div[6]/div[3]/table/tbody/tr[2]/td[1]/div/span"
-    balance_equity_element = driver.find_element(
-        By.XPATH, balance_equity_xpath)
+    # balance_equity_xpath = "/html/body/div[6]/div[3]/table/tbody/tr[2]/td[1]/div/span"
+    balance_equity_xpath = "//span[contains(text(), 'Balance:')]"
+    balance_equity_element = driver.find_element(By.XPATH, balance_equity_xpath)
+    
+
+    # balance_equity_element = driver.find_element(
+    #     By.XPATH, balance_equity_xpath)
 
     balance_equity_str = balance_equity_element.text
     balance_index = balance_equity_str.index("Balance:")
     equity_index = balance_equity_str.index("Equity:")
-    margin_index = balance_equity_str.index("Margin")
+    margin_index = balance_equity_str.index(":", equity_index+7)
     balance = convert_str_to_float(
         balance_equity_str[balance_index:equity_index].strip())
     equity = convert_str_to_float(
         balance_equity_str[equity_index:margin_index].strip())
 
     return market_watch, balance, equity
+
+
