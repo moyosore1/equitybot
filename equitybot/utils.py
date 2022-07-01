@@ -18,13 +18,15 @@ def setup_driver():
     options.add_argument("--incognito")
     options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
     options.add_argument("--disable-plugins-discovery")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--no-sandbox")
     options.add_argument("start-maximized")
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
-    driver = uc.Chrome(executable_path=str(
-        os.environ.get('CHROMEDRIVER_PATH')), options=options)
+    driver = uc.Chrome(executable_path=os.environ.get(
+        'CHROMEDRIVER_PATH'), options=options)
     return driver
 
 
