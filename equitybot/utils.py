@@ -12,19 +12,17 @@ import undetected_chromedriver as uc
 
 def setup_driver():
     options = uc.ChromeOptions()
-    options.add_argument('--disable-extensions')
-    options.add_argument("--headless")
-    options.add_argument('--profile-directory=Default')
-    options.add_argument("--incognito")
-    options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
-    options.add_argument("--disable-plugins-discovery")
-    options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--no-sandbox")
-    options.add_argument("start-maximized")
+    options.add_argument("--headless")
+    options.add_argument("--incognito")
+    options.add_argument('--disable-extensions')
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
-
+    options.add_argument('--profile-directory=Default')
+    options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+    options.add_argument("start-maximized")
+    
     driver = uc.Chrome(executable_path=os.environ.get(
         'CHROMEDRIVER_PATH'), options=options)
     return driver
@@ -60,8 +58,6 @@ def login_to_mql5(driver):
     time.sleep(1)
     okay_btn.click()
 
-# from equitybot.tasks import add_latest_data
-# add_latest_data.delay()
 
 def scrape_data(driver):
     market_watch_xpath = "/html/body/div[5]/div/div[1]"
